@@ -17,31 +17,23 @@ export default function Home() {
   const [profile, setProfile] = useState<IProfile | undefined>();
   const router = useRouter();
 
-  const getInitLiff = useCallback(async () => {
-    await liff
-      .init({
-        liffId: process.env.NEXT_PUBLIC_LINE_LIFF_ID as string
-      })
-      .then(async () => {
-        // start to use LIFF's api
+  const getInitLiff = async () => {
+    await liff.init({
+      liffId: process.env.NEXT_PUBLIC_LINE_LIFF_ID as string
+    });
 
-        if (!liff.isLoggedIn()) {
-          liff.login();
-          setIsLoggedIn(false);
-          return false;
-        }
+    if (!liff.isLoggedIn()) {
+      liff.login();
+      setIsLoggedIn(false);
+      return false;
+    }
 
-        setIsLoggedIn(true);
+    setIsLoggedIn(true);
 
-        const response = (await liff.getProfile()) as IProfile;
+    const response = (await liff.getProfile()) as IProfile;
 
-        setProfile(response);
-      })
-      .catch((err) => {
-        console.log(err);
-        setIsLoggedIn(false);
-      });
-  }, []);
+    setProfile(response);
+  };
 
   useEffect(() => {
     getInitLiff();
