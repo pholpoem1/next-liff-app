@@ -2,8 +2,7 @@
 
 import liff from "@line/liff";
 import Image from "next/image";
-import { useRouter } from "next/navigation";
-import { useCallback, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 
 interface IProfile {
   displayName: string;
@@ -15,7 +14,6 @@ interface IProfile {
 export default function Home() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [profile, setProfile] = useState<IProfile | undefined>();
-  const router = useRouter();
 
   const getInitLiff = async () => {
     await liff.init({
@@ -39,11 +37,10 @@ export default function Home() {
     getInitLiff();
   }, []);
 
-  const onClickLogout = async () => {
-    liff.logout();
-    setIsLoggedIn(false);
-    router.refresh();
-  };
+  // const onClickLogout = async () => {
+  //   liff.logout();
+  //   setIsLoggedIn(false);
+  // };
 
   return (
     <main className="flex min-h-screen flex-col items-center p-24">
@@ -62,12 +59,12 @@ export default function Home() {
             alt="img-profile"
           />
 
-          <button
+          {/* <button
             className="rounded-sm p-2 bg-blue-400	text-white"
             onClick={() => onClickLogout()}
           >
             Logout
-          </button>
+          </button> */}
         </div>
       )}
     </main>
